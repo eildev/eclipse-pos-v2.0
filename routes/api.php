@@ -3,7 +3,7 @@
 use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,4 +27,15 @@ Route::controller(SupplierController::class)->group(function () {
 });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(ProductsController::class)->group(function () {
+     Route::get('/product', 'index')->name('product');
+    Route::post('/product/store', 'store')->name('product.store');
+    Route::get('/product/view', 'view')->name('product.view');
+    Route::get('/product/edit/{id}', 'edit')->name('product.edit');
+    Route::post('/product/update/{id}', 'update')->name('product.update');
+    Route::get('/product/destroy/{id}', 'destroy')->name('product.destroy');
+    // Supplier Profiling
+    // Route::get('/supplier/profile/{id}', 'SupplierProfile')->name('supplier.profile');
 });

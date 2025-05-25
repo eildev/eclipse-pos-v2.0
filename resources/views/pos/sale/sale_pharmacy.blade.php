@@ -101,8 +101,8 @@
         }
 
         .highlight {
-            background-color: #0d7dfd!important;
-            color: #bd2323;
+            background-color: #0d6efd;
+            color: #fff;
         }
 
         .table-head-style {

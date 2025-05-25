@@ -41,7 +41,7 @@
             ->get();
 
         if ($tax == 1) {
-            $taxPercentage = App\Models\Tax::first()->percentage ?? 0;
+            $taxPercentage = App\Models\Tax::first()->percentage;
         } else {
             $taxPercentage = null;
         }

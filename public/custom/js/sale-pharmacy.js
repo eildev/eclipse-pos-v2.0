@@ -541,18 +541,18 @@ $(document).ready(function () {
 
                             // console.log('Total Stock',item.totalVariationStock)
                             findDataContainer.append(`
-                             <tr>
+                                <tr>
                                     <td class="select-product" data-row="${rowId}"
                                         data-name="${item.name}" data-variant_id="${item.variant_id}" data-sizeid="${item.size}" data-colorid="${item.color}" data-color="${item.variation_color}"
-                                   data-variation="${item}" data-variation_stock = "${item.totalVariationStock}"  data-praty_kit_price='${JSON.stringify(item.salePartyKitPrice)}'   data-variation_cost_price="${item.cost_price}"  data-size="${item.variation_size}" data-price="${item.price}" style="background-color: #f4f4f4;">
+                                   data-variation="${item}" data-variation_stock = "${item.totalVariationStock}"  data-praty_kit_price='${JSON.stringify(item.salePartyKitPrice)}'   data-variation_cost_price="${item.cost_price}"  data-size="${item.variation_size}" data-price="${item.price}">
                                         ${item.name}
                                     </td>
-                                    <td style="background-color: #ffcccc;">${item.totalVariationStock}</td>
-                                     ${window.window.authUserSize ? `<td style="background-color: #ccffcc;">${item.variation_size}</td>` : ''}
-                                     ${window.window.authUserColor ? `<td style="background-color: #ccccff;">${item.variation_color}</td>` : ''}
-                                     ${window.authUserCanCostPrice ? `<td style="background-color: #ffffcc;">${item.cost_price}</td>` : ''}
-                                     ${window.window.authUserB2BPrice  ? `<td style="background-color: #ffccff;">${item.b2b_price}</td>` : ''}
-                                     ${window.window.window.authUserB2CPrice   ? `<td style="background-color: #ccffff;">${item.b2c_price}</td>` : ''}
+                                    <td>${item.totalVariationStock}</td>
+                                     ${window.window.authUserSize ? `<td>${item.variation_size}</td>` : ''}
+                                     ${window.window.authUserColor ? `<td>${item.variation_color}</td>` : ''}
+                                     ${window.authUserCanCostPrice ? `<td>${item.cost_price}</td>` : ''}
+                                     ${window.window.authUserB2BPrice  ? `<td>${item.b2b_price}</td>` : ''}
+                                     ${window.window.window.authUserB2CPrice   ? `<td>${item.b2c_price}</td>` : ''}
                                 </tr>
                             `);
                         });
@@ -1299,7 +1299,7 @@ $(document).on("input", ".qty-input", function() {
             if(sale_with_low_price == 0){
             if (unit_price < variant_cost_price) {
                 toastr.warning(
-                `Cannot sell at a lower price than the cost price. price in row ${rowNumber}.`
+                `Cannot sell at a lower price than the cost price. Error in row ${rowNumber}.`
             );
                 row.find('input[name="unit_price[]"]').focus();
                 isValid = false;

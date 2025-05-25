@@ -29,12 +29,17 @@ class ProductsController extends Controller
 {
     public function index()
     {
+        // dd('hello');
+
         return view('pos.products.product.product');
     }
 
     public function store(Request $request, ImageOptimizerService $imageService)
     {
         // dd($request->all());
+
+
+        try{
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'category_id' => 'required|integer',
@@ -89,7 +94,7 @@ class ProductsController extends Controller
             $productvariations->save();
             if (!is_null($request->current_stock) || $request->current_stock > 0) {
                 $stock = new Stock();
-                $stock->branch_id = Auth::user()->branch_id;
+                $stock->branch_id = Auth::user()->branch_id??$request->branch_id;
                 $stock->product_id =   $product->id;
                 $stock->variation_id =   $productvariations->id;
                 $stock->stock_quantity =  $request->current_stock;
@@ -177,6 +182,7 @@ class ProductsController extends Controller
 
             return response()->json([
                 'status' => 200,
+                'product' => $product,
                 'message' => 'Product Save Successfully',
             ]);
         } else {
@@ -185,6 +191,14 @@ class ProductsController extends Controller
                 'error' => $validator->messages()
             ]);
         }
+
+    }
+     catch (\Exception $e) {
+        return response()->json([
+            'status' => '500',
+            'error' => $e->getMessage()
+        ]);
+    }
     }
     public function view()
     {
@@ -455,12 +469,22 @@ class ProductsController extends Controller
     }
     public function edit($id)
     {
+        // dd($id);
+        // try{
+        //     $product = Product::with('defaultVariationsEdit')->findOrFail($id);
+        //     return response()->json([
+        //      'product' => $product
+        //     ]);
+        // }catch(\Exception $e){
+        //     return redirect()->back()->with('error', 'Something went wrong');
+        // }
         $product = Product::with('defaultVariationsEdit')->findOrFail($id);
         return view('pos.products.product.product-edit', compact('product'));
     }
     public function update(Request $request, $id, ImageOptimizerService $imageService)
     {
         // dd($request->all());
+        try{
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'category_id' => 'required|integer',
@@ -525,6 +549,7 @@ class ProductsController extends Controller
 
             return response()->json([
                 'status' => 200,
+                 'product' => $product,
                 'message' => 'Product Update Successfully',
             ]);
         } else {
@@ -534,9 +559,21 @@ class ProductsController extends Controller
             ]);
         }
     }
+    catch (\Exception $e) {
+        return response()->json([
+            'status' => 500,
+            'message' => 'An error occurred while updating the product.',
+            'error' => $e->getMessage(),
+        ]);
+    }
+    }
     public function destroy($id)
     {
+
+
+        try{
         $product = Product::findOrFail($id);
+        // dd($product);
         if ($product->image) {
             $previousImagePath = public_path('uploads/product/') . $product->image;
             if (file_exists($previousImagePath)) {
@@ -545,6 +582,18 @@ class ProductsController extends Controller
         }
         $product->delete();
         return back()->with('message', "Product deleted successfully");
+        // return response()->json([
+        //     'status' => 200,
+        //     'message' => 'Product deleted successfully',
+        // ]);
+    }
+    catch (\Exception $e) {
+        return response()->json([
+            'status' => 500,
+            'message' => 'An error occurred while deleting the product.',
+            'error' => $e->getMessage(),
+        ]);
+    }
     }
 
     // product find
