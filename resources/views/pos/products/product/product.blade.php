@@ -216,7 +216,7 @@
 
                                 <input type="number" class="form-control" name="current_stock">
                             </div>
-                            @if ($manufacture_date == 1)
+                            @if ( isset($manufacture_date)&&$manufacture_date == 1)
                                 <div class="mb-3 col-md-6" id="customDate">
                                     <label for="manufacture_date" class="form-label">Manufacture Date</label>
                                     {{-- <input type="date" class="form-control" name="manufacture_date" > --}}
@@ -225,7 +225,7 @@
                                         placeholder="Select Manufacture Date date">
                                 </div>
                             @endif
-                            @if ($expiry_date == 1)
+                            @if (isset($expiry_date) && $expiry_date == 1)
                                 <div class="mb-3 col-md-6">
                                     <label for="expiry_date" class="form-label">Expiry Date</label>
                                     <div class="input-group " id="customDate">
