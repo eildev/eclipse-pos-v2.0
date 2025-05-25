@@ -221,6 +221,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/product/update/{id}', 'update')->name('product.update');
         Route::get('/product/destroy/{id}', 'destroy')->name('product.destroy');
         Route::get('/product/find/{id}', 'find')->name('product.find');
+        
         Route::get('/variant/barcode/{id}', 'variantBarcode');
         Route::get('/search/{value}', 'globalSearch');
         Route::get('/product/variation/view/{id}', 'productVariationView')->name('product.variation.view');
