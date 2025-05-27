@@ -110,6 +110,7 @@ class ApiCategoryController extends Controller
     public function update(Request $request, $id)
     {
         // dd($request->all());
+        try{
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
         ]);
@@ -141,9 +142,17 @@ class ApiCategoryController extends Controller
             ]);
         }
     }
+    catch(Exception $e){
+        return response()->json([
+            'status' => 500,
+            'message' => 'An error occurred while updating the category',
+            'error' => $e->getMessage()
+        ]);
+    }
+    }
     public function status($id)
     {
-        // dd($id);
+        try{
         $category = Category::findOrFail($id);
         $newStatus = $category->status == 0 ? 1 : 0;
         $category->update([
@@ -155,8 +164,17 @@ class ApiCategoryController extends Controller
             'message' => 'Status Changed Successfully',
         ]);
     }
+    catch(Exception $e){
+        return response()->json([
+            'status' => 500,
+            'message' => 'An error occurred while changing the status',
+            'error' => $e->getMessage()
+        ]);
+    }
+    }
     public function destroy($id)
     {
+        try{
         $category = Category::findOrFail($id);
         if ($category->image) {
             $previousImagePath = public_path('uploads/category/') . $category->image;
@@ -170,5 +188,13 @@ class ApiCategoryController extends Controller
             'message' => 'Category Deleted Successfully',
         ]);
     }
+catch(Exception $e){
+    return response()->json([
+        'status' => 500,
+        'message' => 'An error occurred while deleting the category',
+        'error' => $e->getMessage()
+    ]);
+}
 
+}
 }
